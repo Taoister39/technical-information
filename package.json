@@ -1,0 +1,32 @@
+{
+  "name": "technical-information",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "antd": "^5.0.7",
+    "axios": "^1.2.1",
+    "mobx": "^6.7.0",
+    "mobx-react-lite": "^3.4.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.5.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.26",
+    "@types/react-dom": "^18.0.9",
+    "@typescript-eslint/eslint-plugin": "^5.47.0",
+    "@typescript-eslint/parser": "^5.47.0",
+    "@vitejs/plugin-react": "^3.0.0",
+    "eslint": "^8.30.0",
+    "eslint-plugin-react": "^7.31.11",
+    "sass": "^1.57.1",
+    "typescript": "^4.9.3",
+    "vite": "^4.0.0"
+  }
+}
