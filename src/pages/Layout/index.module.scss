@@ -2,6 +2,10 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  .nav-bar {
+    flex: 1 1 auto;
+  }
 }
 .logo {
   width: 120px;

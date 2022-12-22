@@ -2,11 +2,12 @@ import UserInfo from "../types/UserInfo";
 import { makeAutoObservable } from "mobx";
 
 class UserStore {
-  userInfo: UserInfo = {
-    username: "",
-  };
+  username = "";
+  avatar = ""; // 使用base64 url
   constructor() {
     makeAutoObservable(this);
   }
+  login() {}
+  register() {}
 }
 export default UserStore;
