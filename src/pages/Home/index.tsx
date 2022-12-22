@@ -1,13 +1,34 @@
 import styles from "./index.module.scss";
 import React, { FC } from "react";
-import { Typography, Space, Button, Row, Col, Image, Card } from "antd";
+import {
+  Typography,
+  Space,
+  Button,
+  Row,
+  Col,
+  Image,
+  Card,
+  Carousel,
+} from "antd";
 
-const { Title, Text } = Typography;
+const { Title, Text, Paragraph } = Typography;
 
 import arrow1Img from "@/assets/arrow1.png";
 import arrow2Img from "@/assets/arrow2.png";
 
-import { Link, useNavigate } from "react-router-dom";
+import jsconf1Img from "@/assets/jsconf/53_1.png";
+import jsconf2Img from "@/assets/jsconf/53_61.png";
+
+import connectImg from "@/assets/connect.png";
+
+import functionImg1 from "@/assets/function/f1.png";
+import functionImg2 from "@/assets/function/f2.png";
+import functionImg3 from "@/assets/function/f3.png";
+import functionImg4 from "@/assets/function/f4.png";
+import functionImg5 from "@/assets/function/f5.png";
+import functionImg6 from "@/assets/function/f6.png";
+
+import { Link } from "react-router-dom";
 import {
   BookOutlined,
   FormOutlined,
@@ -15,8 +36,51 @@ import {
 } from "@ant-design/icons";
 
 const Home: FC = () => {
+  const functionShowItems = [
+    {
+      icon: functionImg1,
+      title: "原生分布式",
+      description:
+        "自研一体化架构突破高性能和高可用， 实现应用无限扩展和服务永远在线",
+    },
+    {
+      icon: functionImg2,
+      title: "高兼容",
+      description: "Oracle/MySQL 平滑迁移快速、最小成本搬迁应用与数据",
+    },
+    {
+      icon: functionImg3,
+      title: "HTAP",
+      description:
+        "一份数据既能做事务处理又能实时分析， 通过 HTAP 助力拓展更多可能",
+    },
+    {
+      icon: functionImg4,
+      title: "稳定可靠",
+      description:
+        "全量数据校验真正实现数据强一致，数据不丢失，“三地五中心”实现城市级容灾 RTO<30s",
+    },
+    {
+      icon: functionImg5,
+      title: "自主研发",
+      description:
+        "12 年完全自主研发，代码级可控，大规模金融核心场景 9 年可靠性验证",
+    },
+    {
+      icon: functionImg6,
+      title: "高性价比",
+      description:
+        "基于 LSM-Tree 的高压缩引擎平衡了“性能”和“压缩”的瓶颈，有效降低存储成本 70% - 90%，原生多租户，资源隔离按需使用",
+    },
+  ];
+
+  const carouselItems = [
+    { img: jsconf1Img, description: "" },
+    { img: jsconf2Img, description: "" },
+  ];
+
   return (
-    <div>
+    <div style={{ marginTop: "5em" }}>
       <Space
         className={styles.title}
         direction="vertical"
@@ -104,6 +168,53 @@ const Home: FC = () => {
         </Col>
       </Row>
       <div className={styles["turning-line"]} />
+
+      <Carousel>
+        {carouselItems.map((item, index) => (
+          <div key={index} className={styles["carousel-item"]}>
+            <div
+              style={{
+                background: `url("${item.img}") top left / cover`,
+                width: "100%",
+                height: "100%",
+              }}
+            />
+          </div>
+        ))}
+      </Carousel>
+
+      <Row gutter={[24, 8]} align="middle" justify="center">
+        <Col span={16}>
+          <Title level={2} className={styles.footnote}>
+            为什么选择我们
+          </Title>
+          <Paragraph>
+            OceanBase 已连续 10 年稳定支撑双
+            11，创新推出“三地五中心”城市级容灾新标准，在被誉为“数据库世界杯”的
+            TPC-C 和 TPC-H
+            测试上都刷新了世界纪录。自研一体化架构，兼顾分布式架构的扩展性与集中式架构的性能优势，用一套引擎同时支持
+            OLTP 和 OLAP
+            的混合负载，具备数据强一致、高扩展、高可用、高性价比、高度兼容
+            Oracle/MySQL、稳定可靠等特征，不断用技术降低企业使用数据库的门槛。现已助力金融、政府、运营商、零售、互联网等多个行业的客户实现核心系统升级。
+          </Paragraph>
+        </Col>
+        <Col span={8}>
+          <Image preview={false} src={connectImg} />
+        </Col>
+      </Row>
+      <Row gutter={[24, 24]}>
+        {functionShowItems.map((item, index) => (
+          <Col span={8} key={index} className={styles["function-item"]}>
+            <div>
+              <Image width={60} src={item.icon} preview={false} />
+            </div>
+            <div style={{ marginLeft: "1em" }}>
+              <Title level={5}>{item.title}</Title>
+              <Paragraph>{item.description}</Paragraph>
+            </div>
+          </Col>
+        ))}
+      </Row>
     </div>
   );
 };

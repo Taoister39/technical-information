@@ -1,12 +1,11 @@
 import React, { FC } from "react";
 
-import { Button, Layout, Menu } from "antd";
+import { Button, Layout, Menu, Typography } from "antd";
 import type { MenuProps } from "antd";
 
 import { Link, Outlet, useLocation } from "react-router-dom";
 
 import styles from "./index.module.scss";
-import Breadcrumb from "antd/es/breadcrumb";
 import useStore from "@/store";
 
 const { Header, Content, Footer } = Layout;
@@ -39,12 +38,14 @@ const LayoutApp: FC = () => {
         {userStore.username == "" && <Button type="primary">登录/注册</Button>}
       </Header>
       <Content style={{ padding: "0 50px", flex: "1 1 auto" }}>
-        <Breadcrumb style={{ margin: "16px 0" }}>
+        {/* <Breadcrumb style={{ margin: "16px 0" }}>
           <Breadcrumb.Item>Home</Breadcrumb.Item>
-        </Breadcrumb>
+        </Breadcrumb> */}
         <Outlet />
       </Content>
-      <Footer>软件213你说对就队</Footer>
+      <Footer className={styles.footer}>
+        <Typography.Text>软件213你说对就队</Typography.Text>
+      </Footer>
     </Layout>
   );
 };
