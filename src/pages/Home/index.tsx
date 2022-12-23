@@ -76,7 +76,7 @@ const Home: FC = () => {
 
   const carouselItems = [
     { img: jsconf1Img, description: "" },
-    { img: jsconf2Img, description: "" },
+    { img: jsconf2Img, description: "Hux 黄玄 -- React开发者" },
   ];
 
   return (
@@ -169,7 +169,10 @@ const Home: FC = () => {
       </Row>
       <div className={styles["turning-line"]} />
 
-      <Carousel>
+      <Carousel
+        autoplay
+        className={styles.carousel}
+      >
         {carouselItems.map((item, index) => (
           <div key={index} className={styles["carousel-item"]}>
             <div
@@ -177,8 +180,24 @@ const Home: FC = () => {
                 background: `url("${item.img}") top left / cover`,
                 width: "100%",
                 height: "100%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "flex-end",
+                padding: "0 10em",
               }}
-            />
+            >
+              <Paragraph
+                style={{
+                  color: "#fff",
+                  fontSize: "24px",
+                  lineHeight: "42px",
+                  fontWeight: "bold",
+                  textAlign: "center",
+                }}
+              >
+                {item.description}
+              </Paragraph>
+            </div>
           </div>
         ))}
       </Carousel>

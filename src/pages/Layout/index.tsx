@@ -44,7 +44,9 @@ const LayoutApp: FC = () => {
         <Outlet />
       </Content>
       <Footer className={styles.footer}>
-        <Typography.Text>软件213你说对就队</Typography.Text>
+        <Typography.Text style={{ padding: "1em" }}>
+          软件213你说对就队
+        </Typography.Text>
       </Footer>
     </Layout>
   );
