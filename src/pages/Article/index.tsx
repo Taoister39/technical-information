@@ -95,60 +95,62 @@ const Article: FC = () => {
           </div>
         </Col>
         <Col span={14}>
-          <List
-            itemLayout="vertical"
-            size="large"
-            pagination={{
-              onChange: (page) => {
-                setSelectPage((prevPage) => ({ ...prevPage, page }));
-                // console.log(page);
-              },
-              pageSize: selectPage.per_page,
-              current: selectPage.page,
-              total: selectPage.max_count,
-            }}
-            dataSource={articleData}
-            renderItem={(item) => (
-              <List.Item
-                key={item.title}
-                actions={[
-                  <Space key="startCount">
-                    <StarOutlined />
-                    {item.startCount}
-                  </Space>,
-                  <Space key="likeCount">
-                    <LikeOutlined />
-                    {item.likeCount}
-                  </Space>,
-                  <Space key="messageCount">
-                    <MessageOutlined />
-                    {item.messageCount}
-                  </Space>,
-                  <Space key="time">
-                    <FieldTimeOutlined />
-                    {item.createTime}
-                  </Space>,
-                ]}
-                extra={
-                  <Image
-                    width={200}
-                    alt="logo"
-                    src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
-                  />
-                }
-              >
-                <Link to={`article/${item.id}`}>
-                  <List.Item.Meta
-                    avatar={<Avatar src={item.avatar} />}
-                    title={
-                      <Link to={`user?id=${item.userId}`}>{item.title}</Link>
-                    }
-                    description={item.description}
-                  />
-                </Link>
-              </List.Item>
-            )}
-          />
+          <Card>
+            <List
+              itemLayout="vertical"
+              size="large"
+              pagination={{
+                onChange: (page) => {
+                  setSelectPage((prevPage) => ({ ...prevPage, page }));
+                  // console.log(page);
+                },
+                pageSize: selectPage.per_page,
+                current: selectPage.page,
+                total: selectPage.max_count,
+              }}
+              dataSource={articleData}
+              renderItem={(item) => (
+                <List.Item
+                  key={item.title}
+                  actions={[
+                    <Space key="startCount">
+                      <StarOutlined />
+                      {item.startCount}
+                    </Space>,
+                    <Space key="likeCount">
+                      <LikeOutlined />
+                      {item.likeCount}
+                    </Space>,
+                    <Space key="messageCount">
+                      <MessageOutlined />
+                      {item.messageCount}
+                    </Space>,
+                    <Space key="time">
+                      <FieldTimeOutlined />
+                      {item.createTime}
+                    </Space>,
+                  ]}
+                  extra={
+                    <Image
+                      width={200}
+                      alt="logo"
+                      src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
+                    />
+                  }
+                >
+                  <Link to={`article/${item.id}`}>
+                    <List.Item.Meta
+                      avatar={<Avatar src={item.avatar} />}
+                      title={
+                        <Link to={`user?id=${item.userId}`}>{item.title}</Link>
+                      }
+                      description={item.description}
+                    />
+                  </Link>
+                </List.Item>
+              )}
+            />
+          </Card>
         </Col>
         <Col span={6}>
           <Space direction="vertical" size="large">
