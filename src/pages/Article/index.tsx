@@ -67,6 +67,7 @@ const Article: FC = () => {
 
   const onTimeChange = (date: Dayjs) => {
     console.log(date);
+
     // navigate(`?time=${date.toString()}`);
   };
   const onSelectArticleType: MenuProps["onSelect"] = ({ key }) => {
@@ -75,6 +76,7 @@ const Article: FC = () => {
   };
 
   useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
     (async () => {})();
   }, [selectArticleType, selectTime]);
 

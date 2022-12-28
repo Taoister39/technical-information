@@ -1,4 +1,3 @@
-import UserInfo from "../types/UserInfo";
 import { makeAutoObservable } from "mobx";
 
 class UserStore {
