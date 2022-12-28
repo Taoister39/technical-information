@@ -1,20 +1,16 @@
 import React, { useState } from "react";
 import styles from "./index.module.scss";
 import {
-  Button,
   Card,
   Col,
+  Divider,
   Pagination,
   Row,
   Space,
   Tag,
   Typography,
 } from "antd";
-import {
-  FieldTimeOutlined,
-  LikeOutlined,
-  StarOutlined,
-} from "@ant-design/icons";
+import { FieldTimeOutlined, StarOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 
 const Issue = () => {
@@ -67,12 +63,17 @@ const Issue = () => {
           </Col>
         ))}
       </Row>
-      <Pagination
-        current={selectPage.page}
-        total={selectPage.max_count}
-        pageSize={selectPage.per_page}
-        onChange={(page) => setSelectPage((state) => ({ ...state, page }))}
-      />
+      <Divider />
+      <Row justify="end" gutter={[12, 12]} align="middle">
+        <Col>
+          <Pagination
+            current={selectPage.page}
+            total={selectPage.max_count}
+            pageSize={selectPage.per_page}
+            onChange={(page) => setSelectPage((state) => ({ ...state, page }))}
+          />
+        </Col>
+      </Row>
     </div>
   );
 };

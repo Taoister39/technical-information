@@ -35,7 +35,11 @@ const LayoutApp: FC = () => {
           theme="dark"
           className={styles["nav-bar"]}
         />
-        {userStore.username == "" && <Button type="primary">登录/注册</Button>}
+        {userStore.username == "" && (
+          <Link to="/login">
+            <Button type="primary">登录/注册</Button>
+          </Link>
+        )}
       </Header>
       <Content style={{ padding: "0 50px", flex: "1 1 auto" }}>
         {/* <Breadcrumb style={{ margin: "16px 0" }}>

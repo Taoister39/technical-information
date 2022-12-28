@@ -7,6 +7,7 @@ const Home = lazy(() => import("@/pages/Home"));
 const Article = lazy(() => import("@/pages/Article"));
 const Issue = lazy(() => import("@/pages/Issue"));
 const Analyze = lazy(() => import("@/pages/Analyze"));
+const Login = lazy(() => import("@/pages/Login"));
 
 import { Spin } from "antd";
 // 根路由
@@ -33,6 +34,7 @@ const RootRouter: FC = () => {
             <Route path="article" element={<Article />} />
             <Route path="issue" element={<Issue />} />
             <Route path="analyze" element={<Analyze />} />
+            <Route path="login" element={<Login />} />
           </Route>
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
