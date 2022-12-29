@@ -1,3 +1,22 @@
-// .login-view {
-//   margin-top: 50vh;
-// }
+.login-view {
+  width: 100vw;
+  height: 100vh;
+  background: url("@/assets/login.png");
+}
+
+.login {
+  width: 800px;
+  height: 500px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 50px rgb(0 0 0 / 10%);
+  .logo {
+    width: 200px;
+    height: 60px;
+    margin: 0 auto;
+    margin-bottom: 20px;
+    display: flex;
+  }
+}

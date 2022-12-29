@@ -34,8 +34,8 @@ const RootRouter: FC = () => {
             <Route path="article" element={<Article />} />
             <Route path="issue" element={<Issue />} />
             <Route path="analyze" element={<Analyze />} />
-            <Route path="login" element={<Login />} />
           </Route>
+          <Route path="login" element={<Login />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </Suspense>
