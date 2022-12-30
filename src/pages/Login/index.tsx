@@ -1,18 +1,46 @@
-import { Button, Card, Checkbox, Divider, Form, Input } from "antd";
+import { Button, Card, Checkbox, Form, FormProps, Input, message } from "antd";
 import React, { useState } from "react";
 import type { FC } from "react";
 import styles from "./index.module.scss";
 
 import logoImg from "@/assets/logo.png";
+import { loginApi, registerApi } from "@/api/User";
+import { setToken } from "@/utils/token";
+import { useNavigate } from "react-router-dom";
+import useStore from "@/store";
 
 const Login: FC = () => {
   const [isLogin, setIsLogin] = useState(true);
+
+  const { userStore } = useStore();
+
+  const navigate = useNavigate();
+
+  const onFinish: FormProps<{
+    username: string;
+    password: string;
+    password2: string;
+  }>["onFinish"] = async (param) => {
+    console.log(param);
+
+    if (!isLogin) {
+      userStore.register(param.username, param.password, param.password2);
+      setIsLogin(true);
+    } else {
+      userStore.login(param.username, param.password);
+      navigate("/");
+    }
+  };
 
   return (
     <div className={styles["login-view"]}>
       <Card className={styles.login}>
         <img src={logoImg} className={styles.logo} />
-        <Form labelCol={{ span: 2 }} wrapperCol={{ span: 20, offset: 1 }}>
+        <Form
+          labelCol={{ span: 2 }}
+          onFinish={onFinish}
+          wrapperCol={{ span: 20, offset: 1 }}
+        >
           <Form.Item label="用户名" name="username">
             <Input placeholder="输入您的用户名" />
           </Form.Item>
@@ -20,7 +48,7 @@ const Login: FC = () => {
             <Input.Password placeholder="输入您的密码" />
           </Form.Item>
           {!isLogin && (
-            <Form.Item label="确认密码">
+            <Form.Item label="确认密码" name="password2">
               <Input.Password placeholder="再次输入您的密码" />
             </Form.Item>
           )}
@@ -36,7 +64,7 @@ const Login: FC = () => {
           </Form.Item>
           <Form.Item label="提交">
             <Button type="primary" htmlType="submit" size="large">
-              登录
+              {isLogin ? "登录" : "注册"}
             </Button>
           </Form.Item>
           {/* <Form.Item> */}

@@ -91,9 +91,11 @@ const Article: FC = () => {
             onSelect={onSelectArticleType}
           />
           <div className={styles["publish-article"]}>
-            <Button type="primary" size="large">
-              发布文章
-            </Button>
+            <Link to="/article/publish">
+              <Button type="primary" size="large">
+                发布文章
+              </Button>
+            </Link>
           </div>
         </Col>
         <Col span={14}>

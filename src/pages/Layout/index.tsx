@@ -1,12 +1,23 @@
 import React, { FC } from "react";
 
-import { Button, Layout, Menu, Typography } from "antd";
+import {
+  Avatar,
+  Button,
+  Dropdown,
+  Image,
+  Layout,
+  Menu,
+  Popconfirm,
+  Space,
+  Typography,
+} from "antd";
 import type { MenuProps } from "antd";
 
 import { Link, Outlet, useLocation } from "react-router-dom";
 
 import styles from "./index.module.scss";
 import useStore from "@/store";
+import { DownOutlined, LogoutOutlined } from "@ant-design/icons";
 
 const { Header, Content, Footer } = Layout;
 
@@ -35,10 +46,31 @@ const LayoutApp: FC = () => {
           theme="dark"
           className={styles["nav-bar"]}
         />
-        {userStore.username == "" && (
+        {userStore.username == "" ? (
           <Link to="/login">
             <Button type="primary">登录/注册</Button>
           </Link>
+        ) : (
+          <Space className={""}>
+            <Typography.Text type="success">
+              {userStore.username}
+            </Typography.Text>
+            <Avatar src={<Image src={userStore.avatar} />} />
+            {/* <Dropdown>
+              <Space>
+                個人中心
+                <DownOutlined />
+              </Space>
+            </Dropdown>
+            <Popconfirm
+              title="確認是否退出"
+              okText="確認"
+              cancelText="取消"
+            >
+              <LogoutOutlined />
+              退出
+            </Popconfirm> */}
+          </Space>
         )}
       </Header>
       <Content style={{ padding: "0 50px", flex: "1 1 auto" }}>

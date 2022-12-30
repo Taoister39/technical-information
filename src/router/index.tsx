@@ -1,10 +1,11 @@
 import React, { FC, Suspense, lazy } from "react";
 import { Navigate, Route, Routes } from "react-router";
 import { BrowserRouter } from "react-router-dom";
+import ArticleRouter from "@/router/ArticleRouter";
 
 const LayoutApp = lazy(() => import("@/pages/Layout"));
 const Home = lazy(() => import("@/pages/Home"));
-const Article = lazy(() => import("@/pages/Article"));
+// const Article = lazy(() => import("@/pages/Article"));
 const Issue = lazy(() => import("@/pages/Issue"));
 const Analyze = lazy(() => import("@/pages/Analyze"));
 const Login = lazy(() => import("@/pages/Login"));
@@ -31,9 +32,9 @@ const RootRouter: FC = () => {
         <Routes>
           <Route path="/" element={<LayoutApp />}>
             <Route index element={<Home />} />
-            <Route path="article" element={<Article />} />
-            <Route path="issue" element={<Issue />} />
-            <Route path="analyze" element={<Analyze />} />
+            <Route path="/article/*" element={<ArticleRouter />} />
+            <Route path="/issue" element={<Issue />} />
+            <Route path="/analyze" element={<Analyze />} />
           </Route>
           <Route path="login" element={<Login />} />
           <Route path="*" element={<Navigate to="/" />} />

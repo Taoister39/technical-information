@@ -11,8 +11,8 @@ const Analyze: FC = () => {
         <Col span={12}>
           <Card>
             <TechnologyPie
-              title="前端主流使用开发框架"
-              subTitle="数据来源：State of JS"
+              title="前端开发框架"
+              subTitle="数据来源：State of JS 2021"
               technologyNames={[
                 "React",
                 "Vue",
@@ -44,7 +44,7 @@ const Analyze: FC = () => {
           <Card>
             <TechnologyPie
               title="移动端和桌面端"
-              subTitle="数据来源：State of JS"
+              subTitle="数据来源：State of JS 2021"
               technologyNames={[
                 "Electron",
                 "React Native",
@@ -77,6 +77,9 @@ const Analyze: FC = () => {
             <TechnologyLine />
           </Card>
         </Col>
+        {/* <Col span={24}>
+          <Card></Card>
+        </Col> */}
       </Row>
     </div>
   );

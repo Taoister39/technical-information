@@ -1,5 +1,5 @@
 const apiConfig = {
-  baseUrl: "",
+  baseUrl: "http://localhost:3939",
   timeOut: 1000,
 };
 

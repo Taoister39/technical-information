@@ -6,6 +6,9 @@ import { clearToken, getToken } from "./token";
 const http = axios.create({
   baseURL: apiConfig.baseUrl,
   timeout: apiConfig.timeOut,
+  headers: {
+    "Content-Type": "application/x-www-form-urlencoded",
+  },
 });
 
 http.interceptors.request.use(
@@ -27,3 +30,4 @@ http.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+export default http;
