@@ -1,5 +1,6 @@
-import { loginApi, registerApi } from "@/api/User";
-import { setToken } from "@/utils/token";
+import { getInfoApi, loginApi, registerApi, updatePwdApi } from "@/api/User";
+import updateInfoApi from "@/api/User/updateInfo";
+import { clearToken, setToken } from "@/utils/token";
 import { message } from "antd";
 import { makeAutoObservable } from "mobx";
 
@@ -36,7 +37,38 @@ class UserStore {
       throw new Error();
     }
   }
-  async updateInfo(email: string, avatar: string) {}
-  async updatePwd(oldPwd: string, newPwd: string) {}
+  logout() {
+    this.avatar = undefined;
+    this.email = undefined;
+    this.username = undefined;
+    clearToken();
+  }
+  async updateInfo(email: string) {
+    const result = await updateInfoApi(email);
+
+    if (result.isOk) {
+      return message.success(result.message);
+    }
+    return message.error(result.message);
+  }
+  async updatePwd(oldPwd: string, newPwd: string) {
+    const result = await updatePwdApi(oldPwd, newPwd);
+    if (result.isOk) {
+      return message.success(result.message);
+    }
+    message.error(result.message);
+  }
+
+  async getInfo() {
+    const result = await getInfoApi();
+    if (!result.isOk) {
+      clearToken();
+      return message.error(result.message);
+    }
+
+    this.avatar = result.data?.user_avatar;
+    this.email = result.data?.user_email;
+    this.username = result.data?.user_name;
+  }
 }
 export default UserStore;

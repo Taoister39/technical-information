@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 
 import {
   Avatar,
@@ -17,7 +17,14 @@ import { Link, Outlet, useLocation } from "react-router-dom";
 
 import styles from "./index.module.scss";
 import useStore from "@/store";
-import { DownOutlined, LogoutOutlined } from "@ant-design/icons";
+import {
+  AppstoreAddOutlined,
+  DownOutlined,
+  ImportOutlined,
+  LogoutOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
+import { observer } from "mobx-react-lite";
 
 const { Header, Content, Footer } = Layout;
 
@@ -35,6 +42,28 @@ const LayoutApp: FC = () => {
   const selectedKey = location.pathname;
   // console.log(selectedKey);
 
+  useEffect(() => {
+    userStore.getInfo();
+  }, []);
+
+  const avatarMenu = [
+    {
+      key: "/user/userinfo",
+      icon: <AppstoreAddOutlined />,
+      label: <Link to="/user/userinfo">基本資料</Link>,
+    },
+    {
+      key: "/user/updateavatar",
+      icon: <UserOutlined />,
+      label: <Link to="/user/updateavatar">更換頭像</Link>,
+    },
+    {
+      key: "/user/updatepwd",
+      icon: <ImportOutlined />,
+      label: <Link to="/user/updatepwd">重置密碼</Link>,
+    },
+  ];
+
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <Header className={styles.header}>
@@ -46,7 +75,7 @@ const LayoutApp: FC = () => {
           theme="dark"
           className={styles["nav-bar"]}
         />
-        {userStore.username == "" ? (
+        {userStore.username === undefined ? (
           <Link to="/login">
             <Button type="primary">登录/注册</Button>
           </Link>
@@ -56,20 +85,25 @@ const LayoutApp: FC = () => {
               {userStore.username}
             </Typography.Text>
             <Avatar src={<Image src={userStore.avatar} />} />
-            {/* <Dropdown>
-              <Space>
-                個人中心
-                <DownOutlined />
-              </Space>
+            <Dropdown menu={{ items: avatarMenu }}>
+              <Button type="link">
+                <Space>
+                  個人中心
+                  <DownOutlined />
+                </Space>
+              </Button>
             </Dropdown>
-            <Popconfirm
-              title="確認是否退出"
-              okText="確認"
-              cancelText="取消"
-            >
-              <LogoutOutlined />
-              退出
-            </Popconfirm> */}
+            <Button type="link">
+              <Popconfirm
+                title="确认是否退出"
+                okText="确认"
+                cancelText="取消"
+                onConfirm={() => userStore.logout()}
+              >
+                <LogoutOutlined />
+                退出
+              </Popconfirm>
+            </Button>
           </Space>
         )}
       </Header>
@@ -88,4 +122,4 @@ const LayoutApp: FC = () => {
   );
 };
 
-export default LayoutApp;
+export default observer(LayoutApp);

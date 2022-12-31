@@ -1,12 +1,19 @@
-import { Button, Card, Checkbox, Form, FormProps, Input, message } from "antd";
+import {
+  Button,
+  Card,
+  Checkbox,
+  Form,
+  FormProps,
+  Input,
+  Space,
+  message,
+} from "antd";
 import React, { useState } from "react";
 import type { FC } from "react";
 import styles from "./index.module.scss";
 
 import logoImg from "@/assets/logo.png";
-import { loginApi, registerApi } from "@/api/User";
-import { setToken } from "@/utils/token";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useStore from "@/store";
 
 const Login: FC = () => {
@@ -23,12 +30,20 @@ const Login: FC = () => {
   }>["onFinish"] = async (param) => {
     console.log(param);
 
-    if (!isLogin) {
-      userStore.register(param.username, param.password, param.password2);
-      setIsLogin(true);
-    } else {
-      userStore.login(param.username, param.password);
-      navigate("/");
+    try {
+      if (!isLogin) {
+        await userStore.register(
+          param.username,
+          param.password,
+          param.password2
+        );
+        setIsLogin(true);
+      } else {
+        await userStore.login(param.username, param.password);
+        navigate("/");
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -67,10 +82,13 @@ const Login: FC = () => {
               {isLogin ? "登录" : "注册"}
             </Button>
           </Form.Item>
-          {/* <Form.Item> */}
-          <Button type="link" onClick={() => setIsLogin((state) => !state)}>
-            {isLogin ? "我还没有账号，点我注册" : "我有账号，点我登录"}
-          </Button>
+          <Space size="large">
+            <Link to="/">返回首页</Link>
+            {/* <Form.Item> */}
+            <Button type="link" onClick={() => setIsLogin((state) => !state)}>
+              {isLogin ? "我还没有账号，点我注册" : "我有账号，点我登录"}
+            </Button>
+          </Space>
           {/* </Form.Item> */}
         </Form>
       </Card>

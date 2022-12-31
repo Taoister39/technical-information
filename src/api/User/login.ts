@@ -1,6 +1,7 @@
 import http from "@/utils/http";
 
 import type HttpReceive from "@/types/HttpReceive";
+import type Api from "@/types/Api";
 
 interface Data {
   username: string;
@@ -12,11 +13,7 @@ interface Data {
 const loginApi = async (
   username: string,
   password: string
-): Promise<{
-  message: string;
-  isOk: boolean;
-  data?: Data;
-}> => {
+): Promise<Api<Data>> => {
   const response = await http.post<HttpReceive<Data>>("api/login", {
     username,
     password,

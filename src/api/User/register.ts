@@ -1,10 +1,11 @@
+import type Api from "@/types/Api";
 import http from "@/utils/http";
 
 const registerApi = async (
   username: string,
   password: string,
   password2: string
-): Promise<{ message: string; isOk: boolean }> => {
+): Promise<Api> => {
   const response = await http.post("/api/register", {
     username,
     password,

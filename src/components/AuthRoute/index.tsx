@@ -8,11 +8,11 @@ const AuthRoute: FC<{ children: ReactElement; msg?: string }> = ({
   children,
   msg = "无权限",
 }) => {
-  message.error(msg);
   const token = getToken();
   if (token) {
     return <>{children}</>;
   }
+  message.error(msg);
   return <Navigate to="/login" />;
 };
 

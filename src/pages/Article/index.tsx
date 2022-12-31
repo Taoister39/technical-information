@@ -106,7 +106,6 @@ const Article: FC = () => {
               pagination={{
                 onChange: (page) => {
                   setSelectPage((prevPage) => ({ ...prevPage, page }));
-                  // console.log(page);
                 },
                 pageSize: selectPage.per_page,
                 current: selectPage.page,
@@ -142,15 +141,13 @@ const Article: FC = () => {
                     />
                   }
                 >
-                  <Link to={`article/${item.id}`}>
-                    <List.Item.Meta
-                      avatar={<Avatar src={item.avatar} />}
-                      title={
-                        <Link to={`user?id=${item.userId}`}>{item.title}</Link>
-                      }
-                      description={item.description}
-                    />
-                  </Link>
+                  <List.Item.Meta
+                    avatar={<Avatar src={item.avatar} />}
+                    title={
+                      <Link to={`user?id=${item.userId}`}>{item.title}</Link>
+                    }
+                    description={item.description}
+                  />
                 </List.Item>
               )}
             />
