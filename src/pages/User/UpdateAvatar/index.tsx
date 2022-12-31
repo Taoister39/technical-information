@@ -37,13 +37,13 @@ const UpdateAvatar = () => {
     setFileList([]);
   };
   return (
-    <Card title="修改用戶頭像">
+    <Card title="更换用户头像">
       <ImgCrop
         shape="round"
         rotate
         quality={1}
-        modalTitle="檢視圖片"
-        modalOk="確定"
+        modalTitle="查看突变"
+        modalOk="确定"
         modalCancel="取消"
       >
         <Upload
@@ -52,7 +52,7 @@ const UpdateAvatar = () => {
           fileList={fileList}
           onChange={onFileChange}
         >
-          {fileList.length === 0 && "+ 上傳"}
+          {fileList.length === 0 && "+ 上传"}
         </Upload>
       </ImgCrop>
       <Button
@@ -60,7 +60,7 @@ const UpdateAvatar = () => {
         style={{ marginTop: "1em" }}
         onClick={updateAvatar}
       >
-        確定上傳
+        确定上传
       </Button>
     </Card>
   );

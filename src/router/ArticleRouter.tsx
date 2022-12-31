@@ -11,7 +11,7 @@ const ArticleRouter = () => {
     <Routes>
       <Route index element={<Article />} />
       <Route
-        path="/preview"
+        path="/preview/:id"
         element={
           <AuthRoute msg="需要登录">
             <ArticlePreview />

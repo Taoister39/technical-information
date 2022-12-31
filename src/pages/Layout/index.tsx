@@ -10,6 +10,7 @@ import {
   Popconfirm,
   Space,
   Typography,
+  message,
 } from "antd";
 import type { MenuProps } from "antd";
 
@@ -84,7 +85,11 @@ const LayoutApp: FC = () => {
             <Typography.Text type="success">
               {userStore.username}
             </Typography.Text>
-            <Avatar src={<Image src={userStore.avatar} />} />
+            {userStore.avatar != undefined ? (
+              <Avatar src={<Image src={userStore.avatar} />} />
+            ) : (
+              <Avatar icon={<UserOutlined />} />
+            )}
             <Dropdown menu={{ items: avatarMenu }}>
               <Button type="link">
                 <Space>
@@ -98,7 +103,10 @@ const LayoutApp: FC = () => {
                 title="确认是否退出"
                 okText="确认"
                 cancelText="取消"
-                onConfirm={() => userStore.logout()}
+                onConfirm={() => {
+                  userStore.logout();
+                  message.success("退出成功");
+                }}
               >
                 <LogoutOutlined />
                 退出

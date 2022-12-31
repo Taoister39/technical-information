@@ -12,6 +12,7 @@ import {
   Row,
   Space,
   Tabs,
+  message,
 } from "antd";
 import React, { FC, useEffect, useState } from "react";
 import styles from "./index.module.scss";
@@ -24,45 +25,76 @@ import {
 import { Dayjs } from "dayjs";
 import { Link } from "react-router-dom";
 import RankingSurface from "@/components/RankingSurface";
+import { getArticleListApi, getCatesApi } from "@/api/Article";
+import { ArticleListData } from "@/types/Data";
+import apiConfig from "@/api/apiConfig";
 
 const Article: FC = () => {
-  const articleTypeItems: MenuProps["items"] = [
-    { label: "推荐", key: "recommend" },
-    { label: "最新", key: "news" },
-    { label: "热门", key: "popular" },
-    { label: "前端", key: "font_end" },
-    { label: "后端", key: "back_end" },
-    {
-      label: "小程序",
-      key: "small_app",
-    },
-    { label: "IOS", key: "ios" },
-    { label: "Android", key: "android" },
-    { label: "工具", key: "tools" },
-    { label: "云计算", key: "compute_cloud" },
-  ];
+  // const articleTypeItems: MenuProps["items"] = [
+  //   { label: "推荐", key: "recommend" },
+  //   { label: "最新", key: "news" },
+  //   { label: "热门", key: "popular" },
+  //   { label: "前端", key: "font_end" },
+  //   { label: "后端", key: "back_end" },
+  //   {
+  //     label: "小程序",
+  //     key: "small_app",
+  //   },
+  //   { label: "IOS", key: "ios" },
+  //   { label: "Android", key: "android" },
+  //   { label: "工具", key: "tools" },
+  //   { label: "云计算", key: "compute_cloud" },
+  // ];
+  const [articleCates, setArticleCates] = useState<MenuProps["items"]>([]);
+  useEffect(() => {
+    (async () => {
+      const result = await getCatesApi();
+      setArticleCates(
+        result.map((item) => ({ label: item.name, key: item.id }))
+      );
+    })();
+  }, []);
 
-  const articleData = Array.from({ length: 23 }).map((_, i) => ({
-    userId: 1,
-    id: i,
-    title: `乾坤道长 ${i}`,
-    avatar: "https://joeschmoe.io/api/v1/random",
-    description: "云计算再爆新热点，SnapStart解决Serverless冷启动问题",
-    startCount: 156,
-    likeCount: 154,
-    messageCount: 3,
-    createTime: "2015-09-01 18:00:00 ",
-  }));
+  // const articleData = Array.from({ length: 23 }).map((_, i) => ({
+  //   userId: 1,
+  //   id: i,
+  //   title: `乾坤道长 ${i}`,
+  //   avatar: "https://joeschmoe.io/api/v1/random",
+  //   description: "云计算再爆新热点，SnapStart解决Serverless冷启动问题",
+  //   startCount: 156,
+  //   likeCount: 154,
+  //   messageCount: 3,
+  //   createTime: "2015-09-01 18:00:00 ",
+  // }));
 
-  const [selectArticleType, setSelectArticleType] = useState("recommend");
+  const [selectArticleType, setSelectArticleType] = useState("1");
   const [selectTime] = useState("");
   const [selectPage, setSelectPage] = useState({
     per_page: 10,
-    max_count: 23,
+    max_count: 1 as unknown,
     page: 1,
   });
   const [inputSearch, setInputSearch] = useState("");
 
+  const [articleData, setArticleData] = useState<ArticleListData[]>();
+  useEffect(() => {
+    (async () => {
+      const result = await getArticleListApi(
+        selectPage.page,
+        selectPage.per_page
+      );
+      if (result.isOk && result.data) {
+        setArticleData(result.data.list);
+        setSelectPage((state) => ({
+          ...state,
+          max_count: result.data?.maxCount,
+        }));
+        // message.success(result.message);
+        return;
+      }
+      message.error(result.message);
+    })();
+  }, [selectPage.page, selectPage.per_page]);
   // const navigate = useNavigate();
 
   const onTimeChange = (date: Dayjs) => {
@@ -87,7 +119,7 @@ const Article: FC = () => {
           <Menu
             selectedKeys={[selectArticleType]}
             theme="light"
-            items={articleTypeItems}
+            items={articleCates}
             onSelect={onSelectArticleType}
           />
           <div className={styles["publish-article"]}>
@@ -118,36 +150,45 @@ const Article: FC = () => {
                   actions={[
                     <Space key="startCount">
                       <StarOutlined />
-                      {item.startCount}
+                      {
+                        //item.startCount
+                        200
+                      }
                     </Space>,
                     <Space key="likeCount">
                       <LikeOutlined />
-                      {item.likeCount}
+                      {
+                        //item.likeCount
+                        200
+                      }
                     </Space>,
                     <Space key="messageCount">
                       <MessageOutlined />
-                      {item.messageCount}
+                      {
+                        //item.messageCount
+                        200
+                      }
                     </Space>,
                     <Space key="time">
                       <FieldTimeOutlined />
-                      {item.createTime}
+                      {item.publish_date}
                     </Space>,
                   ]}
                   extra={
                     <Image
                       width={200}
                       alt="logo"
-                      src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
+                      src={apiConfig.baseUrl + item.cover_url}
                     />
                   }
                 >
-                  <List.Item.Meta
-                    avatar={<Avatar src={item.avatar} />}
-                    title={
-                      <Link to={`user?id=${item.userId}`}>{item.title}</Link>
-                    }
-                    description={item.description}
-                  />
+                  <Link to={`/article/preview/${item.article_id}`}>
+                    <List.Item.Meta
+                      avatar={<Avatar src={item.user_avatar} />}
+                      title={item.user_name}
+                      description={item.title}
+                    />
+                  </Link>
                 </List.Item>
               )}
             />

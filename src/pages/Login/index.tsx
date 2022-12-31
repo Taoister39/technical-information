@@ -40,7 +40,7 @@ const Login: FC = () => {
         setIsLogin(true);
       } else {
         await userStore.login(param.username, param.password);
-        navigate("/");
+        navigate("...", { replace: true });
       }
     } catch (error) {
       console.log(error);

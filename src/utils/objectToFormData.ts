@@ -1,4 +1,4 @@
-const objectToFormData = (object: { [key: string]: string }): FormData => {
+const objectToFormData = (object: { [key: string]: any }): FormData => {
   const formData = new FormData();
 
   for (const [key, value] of Object.entries(object)) {
