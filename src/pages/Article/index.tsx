@@ -25,7 +25,11 @@ import {
 import { Dayjs } from "dayjs";
 import { Link } from "react-router-dom";
 import RankingSurface from "@/components/RankingSurface";
-import { getArticleListApi, getCatesApi } from "@/api/Article";
+import {
+  getArticleListApi,
+  getCatesApi,
+  getPublishInfoApi,
+} from "@/api/Article";
 import { ArticleListData } from "@/types/Data";
 import apiConfig from "@/api/apiConfig";
 
@@ -45,12 +49,16 @@ const Article: FC = () => {
   //   { label: "工具", key: "tools" },
   //   { label: "云计算", key: "compute_cloud" },
   // ];
-  const [articleCates, setArticleCates] = useState<MenuProps["items"]>([]);
+  const [articleCates, setArticleCates] = useState<MenuProps["items"]>([
+    { label: "推荐", key: 1 },
+  ]);
   useEffect(() => {
     (async () => {
       const result = await getCatesApi();
       setArticleCates(
-        result.map((item) => ({ label: item.name, key: item.id }))
+        articleCates?.concat(
+          result.map((item) => ({ label: item.name, key: item.id }))
+        )
       );
     })();
   }, []);
@@ -68,20 +76,20 @@ const Article: FC = () => {
   // }));
 
   const [selectArticleType, setSelectArticleType] = useState("1");
-  const [selectTime] = useState("");
+  // const [selectTime] = useState("");
   const [selectPage, setSelectPage] = useState({
     per_page: 10,
-    max_count: 1 as unknown,
+    max_count: 1 as any,
     page: 1,
   });
-  const [inputSearch, setInputSearch] = useState("");
 
   const [articleData, setArticleData] = useState<ArticleListData[]>();
   useEffect(() => {
     (async () => {
       const result = await getArticleListApi(
         selectPage.page,
-        selectPage.per_page
+        selectPage.per_page,
+        Number(selectArticleType)
       );
       if (result.isOk && result.data) {
         setArticleData(result.data.list);
@@ -94,7 +102,7 @@ const Article: FC = () => {
       }
       message.error(result.message);
     })();
-  }, [selectPage.page, selectPage.per_page]);
+  }, [selectPage.page, selectPage.per_page, selectArticleType]);
   // const navigate = useNavigate();
 
   const onTimeChange = (date: Dayjs) => {
@@ -107,10 +115,22 @@ const Article: FC = () => {
     // navigate(`?type=${key}`);
   };
 
+  const [countPublishActive, setCountPublishActive] = useState<"week" | "moth">(
+    "week"
+  );
+  const [countPublishData, setCountPublishData] = useState<{
+    numbers: number[];
+    names: string[];
+  }>({ numbers: [], names: [] });
   useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    (async () => {})();
-  }, [selectArticleType, selectTime]);
+    (async () => {
+      const result = await getPublishInfoApi(countPublishActive);
+      setCountPublishData({
+        numbers: result.map((item) => item.count),
+        names: result.map((item) => item.user_name),
+      });
+    })();
+  }, [countPublishActive]);
 
   return (
     <div className={styles["article-view"]}>
@@ -199,27 +219,42 @@ const Article: FC = () => {
             <Calendar fullscreen={false} onChange={onTimeChange} />
             <Input.Search
               enterButton
-              value={inputSearch}
-              onChange={(event) => setInputSearch(event.target.value)}
+              onSearch={async (value) => {
+                const result = await getArticleListApi(
+                  selectPage.page,
+                  selectPage.per_page,
+                  Number(selectArticleType),
+                  value
+                );
+                if (result.isOk && result.data) {
+                  setArticleData(result.data.list);
+                  setSelectPage((state) => ({
+                    ...state,
+                    max_count: result.data?.maxCount,
+                  }));
+                  // message.success(result.message);
+                  return;
+                }
+                message.error(result.message);
+              }}
             />
             <Card title="文章发布活跃用户">
               <Tabs
-                defaultActiveKey="day"
+                onChange={(activeKey) => {
+                  if (activeKey === "moth" || activeKey === "week") {
+                    setCountPublishActive(activeKey);
+                  }
+                }}
+                // defaultActiveKey="week"
+                activeKey={countPublishActive}
                 items={[
                   {
                     label: "周文章数",
-                    key: "day",
+                    key: "week",
                     children: (
                       <RankingSurface
-                        numbers={[4215, 123, 12, 3, 2, 1]}
-                        names={[
-                          "乾坤道长1",
-                          "乾坤道长2",
-                          "乾坤道长3",
-                          "乾坤道长4",
-                          "乾坤道长5",
-                          "乾坤道长6",
-                        ]}
+                        numbers={countPublishData.numbers}
+                        names={countPublishData.names}
                       />
                     ),
                   },
@@ -228,15 +263,8 @@ const Article: FC = () => {
                     key: "moth",
                     children: (
                       <RankingSurface
-                        numbers={[4215, 123, 12, 3, 2, 1]}
-                        names={[
-                          "乾坤道长1",
-                          "乾坤道长2",
-                          "乾坤道长3",
-                          "乾坤道长4",
-                          "乾坤道长5",
-                          "乾坤道长6",
-                        ]}
+                        numbers={countPublishData.numbers}
+                        names={countPublishData.names}
                       />
                     ),
                   },

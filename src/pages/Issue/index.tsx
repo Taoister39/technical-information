@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import {
+  Button,
   Card,
   Col,
   Divider,
@@ -10,55 +11,81 @@ import {
   Tag,
   Typography,
 } from "antd";
-import { FieldTimeOutlined, StarOutlined } from "@ant-design/icons";
+import {
+  FieldTimeOutlined,
+  LikeOutlined,
+  StarOutlined,
+} from "@ant-design/icons";
 import { Link } from "react-router-dom";
+import { IssuesData } from "@/types/Data";
+import { getIssueListApi } from "@/api/Issue";
 
 const Issue = () => {
-  const issueData = Array.from({ length: 20 }).map((_, index) => ({
-    id: index,
-    userId: 1,
-    title: "PHP是世界上最好的语言 " + index,
-    description:
-      "没有之一没有之一没有之一没有之一没有之一没有之一没有之一没有之一没有之一没有之一没有之一没有之一没有之一没有之一",
-    focusCount: 10,
-    messageCount: 3,
-    createTime: "2015-09-01 18:00:00 ",
-    tags: ["php", "前端"],
-  }));
   const [selectPage, setSelectPage] = useState({
-    per_page: 20,
-    max_count: 20,
+    per_page: 10,
+    max_count: 1,
     page: 1,
   });
 
+  // const issueDatas = Array.from({ length: 20 }).map((_, index) => ({
+  //   id: index,
+  //   userId: 1,
+  //   title: "PHP是世界上最好的语言 " + index,
+  //   description:
+  //     "没有之一没有之一没有之一没有之一没有之一没有之一没有之一没有之一没有之一没有之一没有之一没有之一没有之一没有之一",
+  //   focusCount: 10,
+  //   messageCount: 3,
+  //   createTime: "2015-09-01 18:00:00 ",
+  //   tags: ["php", "前端"],
+  // }));
+  const [issueData, setIssueData] = useState<IssuesData[]>([]);
+  useEffect(() => {
+    (async () => {
+      const result = await getIssueListApi(
+        selectPage.per_page,
+        selectPage.page
+      );
+      setIssueData(result.list);
+      setSelectPage((state) => ({ ...state, max_count: result.maxCount }));
+    })();
+  }, [selectPage.page, selectPage.per_page]);
+
   return (
     <div className={styles["issue-view"]}>
-      <Row gutter={[24, 24]} align="middle" justify="center">
+      <Link to="/issue/publish">
+        <Button type="primary" style={{ marginBottom: "1em" }}>
+          发布问题
+        </Button>
+      </Link>
+      <Row gutter={[24, 24]} align="middle" justify="start">
         {issueData.map((item, index) => (
-          <Col key={index} span={6}>
+          <Col key={index} span={8}>
             <Card
               title={item.title}
               actions={[
                 <Space key="focus">
-                  <StarOutlined />
-                  {item.focusCount}
+                  <LikeOutlined />
+                  {/* {item.focusCount} */}
+                  {item.like_count}
                 </Space>,
                 <Space key="time">
                   <FieldTimeOutlined />
-                  {item.createTime}
+                  {item.publish_date}
                 </Space>,
               ]}
             >
-              <Link to="/">
+              <Link to={`/issue/preview/${item.issue_id}`}>
                 <Typography.Paragraph type="secondary" ellipsis={true}>
-                  {item.description}
+                  {item.content}
                 </Typography.Paragraph>
+
+                {item.tags != undefined &&
+                  JSON.parse(item.tags).map((item: string, index: number) => (
+                    <Tag key={index} color="green">
+                      {item}
+                    </Tag>
+                  ))}
               </Link>
-              {item.tags.map((item, index) => (
-                <Tag key={index} color="green">
-                  {item}
-                </Tag>
-              ))}
             </Card>
           </Col>
         ))}

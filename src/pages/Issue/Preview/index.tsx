@@ -1,0 +1,183 @@
+import React, { useEffect, useState } from "react";
+import type { FC } from "react";
+
+import {
+  Avatar,
+  Button,
+  Card,
+  Col,
+  Divider,
+  Input,
+  List,
+  Row,
+  Space,
+  Tag,
+  Typography,
+  message,
+} from "antd";
+import { useParams } from "react-router-dom";
+import { getIssueApi, likeApi, sendMessageApi } from "@/api/Issue";
+import { IssueMessageListData, IssuePreviewData } from "@/types/Data";
+import {
+  FieldTimeOutlined,
+  LikeOutlined,
+  LikeTwoTone,
+} from "@ant-design/icons";
+import useStore from "@/store";
+import getMessageListApi from "@/api/Issue/getMessageList";
+import { isLikeApi } from "@/api/Issue";
+
+const ArticlePreview: FC = () => {
+  const { id } = useParams();
+  const { userStore } = useStore();
+  const [issueData, setIssueData] = useState<IssuePreviewData>();
+
+  useEffect(() => {
+    (async () => {
+      const result = await getIssueApi(Number(id));
+      setIssueData(result);
+      if (userStore.username) {
+        setIsLike(await isLikeApi(Number(id)));
+      }
+    })();
+  }, [id]);
+
+  const [inputValue, setInputValue] = useState("");
+  const sendMessage = async () => {
+    if (!userStore.username || userStore.username === "") {
+      message.error("请先登录");
+      return;
+    }
+    try {
+      await sendMessageApi(inputValue, Number(id));
+      message.success("发送成功");
+      setInputValue("");
+      setRefresh((state) => !state);
+    } catch (error) {
+      console.log(error);
+      message.error("发送失败");
+    }
+  };
+
+  const [refresh, setRefresh] = useState(false);
+  const [commentList, setCommentList] = useState<IssueMessageListData[]>([]);
+  useEffect(() => {
+    (async () => {
+      const result = await getMessageListApi(Number(id));
+      setCommentList(result);
+    })();
+  }, [refresh]);
+
+  const [isLike, setIsLike] = useState(false);
+  const onLike = async () => {
+    await likeApi(Number(id));
+    setIsLike((state) => !state);
+    if (!isLike) {
+      message.success("点赞成功");
+      setIssueData((state) => {
+        if (state?.like_count !== undefined)
+          return {
+            ...state,
+            like_count: state.like_count + 1,
+          };
+        return state;
+      });
+    } else {
+      message.success("取消点赞成功");
+      setIssueData((state) => {
+        if (state?.like_count !== undefined)
+          return {
+            ...state,
+            like_count: state.like_count - 1,
+          };
+        return state;
+      });
+    }
+  };
+
+  return (
+    <div style={{ marginTop: "1em" }}>
+      <Row gutter={[12, 12]} justify="center" align="middle">
+        <Col span={14}>
+          <Card
+            actions={[
+              <Space key="focus" onClick={onLike}>
+                {isLike ? <LikeTwoTone /> : <LikeOutlined />}
+                {/* {item.focusCount} */}
+                {issueData?.like_count}
+              </Space>,
+              <Space key="time">
+                <FieldTimeOutlined />
+                {issueData?.publish_date}
+              </Space>,
+            ]}
+          >
+            <Typography.Title>{issueData?.title}</Typography.Title>
+            <Space size="large">
+              <Avatar size={50} src={issueData?.user_avatar} />
+              <Typography.Title type="success" level={5}>
+                {issueData?.user_name}
+              </Typography.Title>
+            </Space>
+            <div style={{ marginTop: "1em" }}>
+              {issueData?.tags != undefined &&
+                JSON.parse(issueData?.tags).map(
+                  (item: string, index: number) => (
+                    <Tag key={index} color="green">
+                      {item}
+                    </Tag>
+                  )
+                )}
+            </div>
+            <Divider />
+            <Typography.Paragraph>{issueData?.content}</Typography.Paragraph>
+            {/* <Divider /> */}
+            {/* <Typography.Text>{issueData?.publish_date}</Typography.Text> */}
+          </Card>
+          <Card style={{ marginTop: "1em" }}>
+            <Row gutter={[24, 24]} align="middle" justify="center">
+              <Col span={21}>
+                <Input.TextArea
+                  maxLength={50}
+                  value={inputValue}
+                  onChange={(event) => setInputValue(event.target.value)}
+                  showCount
+                  placeholder="发布评论"
+                />
+              </Col>
+              <Col span={3}>
+                <Button size="large" type="primary" block onClick={sendMessage}>
+                  发送
+                </Button>
+              </Col>
+            </Row>
+            <Divider />
+            <List
+              itemLayout="horizontal"
+              dataSource={commentList}
+              renderItem={(item) => (
+                <List.Item
+                  actions={[
+                    <Space key="time">
+                      <FieldTimeOutlined />
+                      {/* {"2023-01-01T01:34:54.000Z"} */}
+                      {item.publish_date}
+                    </Space>,
+                  ]}
+                >
+                  <List.Item.Meta
+                    avatar={<Avatar src={item.user_avatar} />}
+                    title={item.user_name}
+                    description={item.content}
+                  />
+                </List.Item>
+              )}
+            />
+          </Card>
+        </Col>
+      </Row>
+    </div>
+  );
+};
+
+export default ArticlePreview;

@@ -5,13 +5,14 @@ import { BrowserRouter } from "react-router-dom";
 const LayoutApp = lazy(() => import("@/pages/Layout"));
 const Home = lazy(() => import("@/pages/Home"));
 // const Article = lazy(() => import("@/pages/Article"));
-const Issue = lazy(() => import("@/pages/Issue"));
+// const Issue = lazy(() => import("@/pages/Issue"));
 const Analyze = lazy(() => import("@/pages/Analyze"));
 const Login = lazy(() => import("@/pages/Login"));
 
 import { Spin } from "antd";
 import UserRouter from "@/router/UserRouter";
 import ArticleRouter from "@/router/ArticleRouter";
+import IssueRouter from "@/router/IssueRouter";
 // 根路由
 const RootRouter: FC = () => {
   return (
@@ -34,7 +35,7 @@ const RootRouter: FC = () => {
           <Route path="/" element={<LayoutApp />}>
             <Route index element={<Home />} />
             <Route path="/article/*" element={<ArticleRouter />} />
-            <Route path="/issue" element={<Issue />} />
+            <Route path="/issue/*" element={<IssueRouter />} />
             <Route path="/analyze" element={<Analyze />} />
             <Route path="/user/*" element={<UserRouter />} />
           </Route>

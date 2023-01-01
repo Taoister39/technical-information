@@ -61,6 +61,7 @@ const ArticlePublish: FC = () => {
     if (result.isOk) {
       message.success(result.message);
       navigate("/article");
+      return;
     }
     return message.error(result.message);
   };

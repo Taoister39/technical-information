@@ -9,7 +9,9 @@ interface ArticleListApi {
 }
 const getArticleListApi = async (
   page: number,
-  per_page: number
+  per_page: number,
+  cate_id?: number,
+  search?: string
 ): Promise<Api<ArticleListApi>> => {
   const response = await http.get<HttpReceive<ArticleListApi>>(
     "/article/list",
@@ -17,6 +19,8 @@ const getArticleListApi = async (
       params: {
         page,
         per_page,
+        cate_id,
+        search,
       },
     }
   );

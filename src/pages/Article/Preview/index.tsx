@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import type { FC } from "react";
 
 import {
@@ -36,7 +36,7 @@ const ArticlePreview: FC = () => {
   return (
     <div style={{ marginTop: "1em" }}>
       <Row gutter={[12, 12]} justify="center" align="middle">
-        <Col span={12}>
+        <Col span={14}>
           <Card
             cover={<Image src={apiConfig.baseUrl + articleInfo?.cover_url} />}
           >
@@ -49,6 +49,7 @@ const ArticlePreview: FC = () => {
             </Space>
             <Divider />
             <ReactQuill
+              id="quill"
               readOnly={true}
               value={articleInfo?.content}
               theme="bubble"
