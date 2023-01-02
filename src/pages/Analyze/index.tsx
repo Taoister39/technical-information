@@ -3,6 +3,7 @@ import React, { FC } from "react";
 import { Card, Col, Row } from "antd";
 import TechnologyPie from "@/components/TechnologyPie";
 import TechnologyLine from "@/components/TechnologyLine";
+import DotCharts from "@/components/DotCharts";
 
 const Analyze: FC = () => {
   return (
@@ -77,9 +78,45 @@ const Analyze: FC = () => {
             <TechnologyLine />
           </Card>
         </Col>
-        {/* <Col span={24}>
-          <Card></Card>
-        </Col> */}
+        <Col span={24}>
+          <Card>
+            <DotCharts
+              names={[
+                "Vite",
+                "esbuild",
+                "SWC",
+                "tsc CLI",
+                "Rollup",
+                "Parcel",
+                "webpack",
+                "WMR",
+                "Snowpack",
+                "Rome",
+                "Browserify",
+                "Gulp",
+              ]}
+              title="JS构建工具调查"
+              values={[
+                {
+                  datas: [98, 96, 94, 94, 84, 80, 75, 72, 70, 44, 33, 20],
+                  legend: "满意度",
+                },
+                {
+                  datas: [83, 81, 75, 71, 53, 58, 64, 48, 59, 62, 26, 26],
+                  legend: "关注度",
+                },
+                {
+                  datas: [30, 26, 7, 79, 39, 31, 89, 1, 10, 1, 34, 63],
+                  legend: "使用度",
+                },
+                {
+                  datas: [66, 66, 31, 96, 74, 76, 99, 10, 52, 34, 73, 90],
+                  legend: "认知度",
+                },
+              ]}
+            />
+          </Card>
+        </Col>
       </Row>
     </div>
   );

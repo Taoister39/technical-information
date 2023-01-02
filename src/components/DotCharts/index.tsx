@@ -31,7 +31,7 @@ const DotCharts: FC<{
     yAxis: {},
     series: values.map((item) => ({
       name: item.legend,
-      type: "inline",
+      type: "line",
       data: item.datas,
     })),
     //   [
