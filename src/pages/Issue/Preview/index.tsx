@@ -26,6 +26,7 @@ import {
 import useStore from "@/store";
 import getMessageListApi from "@/api/Issue/getMessageList";
 import { isLikeApi } from "@/api/Issue";
+import CommentBar from "@/components/CommentBar";
 
 const ArticlePreview: FC = () => {
   const { id } = useParams();
@@ -70,6 +71,9 @@ const ArticlePreview: FC = () => {
 
   const [isLike, setIsLike] = useState(false);
   const onLike = async () => {
+    if (!userStore.username) {
+      return message.error("请先登录");
+    }
     await likeApi(Number(id));
     setIsLike((state) => !state);
     if (!isLike) {
@@ -101,7 +105,7 @@ const ArticlePreview: FC = () => {
         <Col span={14}>
           <Card
             actions={[
-              <Space key="focus" onClick={onLike}>
+              <Space key="likeCount" onClick={onLike}>
                 {isLike ? <LikeTwoTone /> : <LikeOutlined />}
                 {/* {item.focusCount} */}
                 {issueData?.like_count}
@@ -131,26 +135,12 @@ const ArticlePreview: FC = () => {
             </div>
             <Divider />
             <Typography.Paragraph>{issueData?.content}</Typography.Paragraph>
-            {/* <Divider /> */}
-            {/* <Typography.Text>{issueData?.publish_date}</Typography.Text> */}
           </Card>
           <Card style={{ marginTop: "1em" }}>
-            <Row gutter={[24, 24]} align="middle" justify="center">
-              <Col span={21}>
-                <Input.TextArea
-                  maxLength={50}
-                  value={inputValue}
-                  onChange={(event) => setInputValue(event.target.value)}
-                  showCount
-                  placeholder="发布评论"
-                />
-              </Col>
-              <Col span={3}>
-                <Button size="large" type="primary" block onClick={sendMessage}>
-                  发送
-                </Button>
-              </Col>
-            </Row>
+            <CommentBar
+              inputState={[inputValue, setInputValue]}
+              onSubmit={sendMessage}
+            />
             <Divider />
             <List
               itemLayout="horizontal"
