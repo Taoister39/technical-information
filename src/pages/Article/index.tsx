@@ -26,11 +26,12 @@ import { Dayjs } from "dayjs";
 import { Link } from "react-router-dom";
 import RankingSurface from "@/components/RankingSurface";
 import {
+  beLikeRankingApi,
   getArticleListApi,
   getCatesApi,
   getPublishInfoApi,
 } from "@/api/Article";
-import { ArticleListData } from "@/types/Data";
+import { ArticleListData, BeLikeRankingArticle } from "@/types/Data";
 import apiConfig from "@/api/apiConfig";
 
 const Article: FC = () => {
@@ -79,7 +80,7 @@ const Article: FC = () => {
   // const [selectTime] = useState("");
   const [selectPage, setSelectPage] = useState({
     per_page: 10,
-    max_count: 1 as any,
+    max_count: 1,
     page: 1,
   });
 
@@ -95,7 +96,7 @@ const Article: FC = () => {
         setArticleData(result.data.list);
         setSelectPage((state) => ({
           ...state,
-          max_count: result.data?.maxCount,
+          max_count: result.data?.maxCount || 0,
         }));
         // message.success(result.message);
         return;
@@ -129,8 +130,18 @@ const Article: FC = () => {
         numbers: result.map((item) => item.count),
         names: result.map((item) => item.user_name),
       });
+      const beLikeRankings = await beLikeRankingApi();
+      setBeLikeList({
+        numbers: beLikeRankings.map((item) => item.was_like_count),
+        names: beLikeRankings.map((item) => item.user_name),
+      });
     })();
   }, [countPublishActive]);
+
+  const [beLikeList, setBeLikeList] = useState<{
+    numbers: number[];
+    names: string[];
+  }>({ numbers: [], names: [] });
 
   return (
     <div className={styles["article-view"]}>
@@ -172,21 +183,21 @@ const Article: FC = () => {
                       <StarOutlined />
                       {
                         //item.startCount
-                        200
+                        item.start_count
                       }
                     </Space>,
                     <Space key="likeCount">
                       <LikeOutlined />
                       {
                         //item.likeCount
-                        200
+                        item.like_count
                       }
                     </Space>,
                     <Space key="messageCount">
                       <MessageOutlined />
                       {
                         //item.messageCount
-                        200
+                        item.comment_count
                       }
                     </Space>,
                     <Space key="time">
@@ -230,7 +241,7 @@ const Article: FC = () => {
                   setArticleData(result.data.list);
                   setSelectPage((state) => ({
                     ...state,
-                    max_count: result.data?.maxCount,
+                    max_count: result.data?.maxCount || 0,
                   }));
                   // message.success(result.message);
                   return;
@@ -271,10 +282,10 @@ const Article: FC = () => {
                 ]}
               />
             </Card>
-            <Card title="点赞数最多用户">
+            <Card title="获点赞数最多用户">
               <RankingSurface
-                names={["乾坤道长1", "乾坤道长2", "乾坤道长3", "乾坤道长4"]}
-                numbers={[64241, 523, 124, 123]}
+                names={beLikeList?.names}
+                numbers={beLikeList?.numbers}
               />
             </Card>
           </Space>

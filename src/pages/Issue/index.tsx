@@ -60,21 +60,21 @@ const Issue = () => {
       <Row gutter={[24, 24]} align="middle" justify="start">
         {issueData.map((item, index) => (
           <Col key={index} span={8}>
-            <Card
-              title={item.title}
-              actions={[
-                <Space key="focus">
-                  <LikeOutlined />
-                  {/* {item.focusCount} */}
-                  {item.like_count}
-                </Space>,
-                <Space key="time">
-                  <FieldTimeOutlined />
-                  {item.publish_date}
-                </Space>,
-              ]}
-            >
-              <Link to={`/issue/preview/${item.issue_id}`}>
+            <Link to={`/issue/preview/${item.issue_id}`}>
+              <Card
+                title={item.title}
+                actions={[
+                  <Space key="focus">
+                    <LikeOutlined />
+                    {/* {item.focusCount} */}
+                    {item.like_count}
+                  </Space>,
+                  <Space key="time">
+                    <FieldTimeOutlined />
+                    {item.publish_date}
+                  </Space>,
+                ]}
+              >
                 <Typography.Paragraph type="secondary" ellipsis={true}>
                   {item.content}
                 </Typography.Paragraph>
@@ -85,8 +85,8 @@ const Issue = () => {
                       {item}
                     </Tag>
                   ))}
-              </Link>
-            </Card>
+              </Card>
+            </Link>
           </Col>
         ))}
       </Row>

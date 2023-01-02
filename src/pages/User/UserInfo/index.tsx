@@ -21,7 +21,7 @@ const UserInfo = () => {
     formInfo.setFieldsValue({ ...userStore });
 
     // console.log(formInfo);
-  }, []);
+  }, [userStore.email]);
 
   const [formInfo] = Form.useForm();
   // 修改用戶信息時

@@ -29,7 +29,7 @@ const getArticleListApi = async (
   }
 
   const { data } = response;
-  if (data.status === 1) {
+  if (data.status === 1 || data.data === undefined) {
     return {
       isOk: false,
       message: data.message,

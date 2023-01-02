@@ -21,6 +21,9 @@ export interface ArticleData {
   author_id: number;
   user_name: string;
   user_avatar: string;
+  start_count: number;
+  comment_count: number;
+  like_count: number;
 }
 
 export interface ArticleListData {
@@ -33,6 +36,9 @@ export interface ArticleListData {
   author_id: number;
   user_name: string;
   user_avatar: string;
+  start_count: number;
+  comment_count: number;
+  like_count: number;
 }
 export interface PublishCountData {
   author_id: number;
@@ -66,4 +72,17 @@ export interface IssueMessageListData {
   issue_id: number;
   user_name: string;
   user_avatar: string;
+}
+
+export interface ArticleMessageListData {
+  publish_date: string;
+  content: string;
+  article_id: number;
+  user_name: string;
+  user_avatar: string;
+}
+
+export interface BeLikeRankingArticle {
+  was_like_count: number;
+  user_name: string;
 }
