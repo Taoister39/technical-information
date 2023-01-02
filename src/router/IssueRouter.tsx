@@ -10,14 +10,7 @@ const IssueRouter = () => {
   return (
     <Routes>
       <Route index element={<Issue />} />
-      <Route
-        path="/preview/:id"
-        element={
-          <AuthRoute msg="需要登录">
-            <IssuePreview />
-          </AuthRoute>
-        }
-      />
+      <Route path="/preview/:id" element={<IssuePreview />} />
       <Route
         path="/publish"
         element={

@@ -45,13 +45,21 @@ const ArticlePublish: FC = () => {
         <Col span={12}>
           <Card>
             <Form labelCol={{ span: 4 }} onFinish={onFinish}>
-              <Form.Item label="问题标题" name="title">
+              <Form.Item
+                label="问题标题"
+                name="title"
+                rules={[{ required: true, message: "不可为空" }]}
+              >
                 <Input placeholder="请输入您遇到的问题" />
               </Form.Item>
               <Form.Item label="输入标签">
                 <TagsInput tagsState={[tags, setTags]} />
               </Form.Item>
-              <Form.Item label="问题内容" name="content">
+              <Form.Item
+                label="问题内容"
+                name="content"
+                rules={[{ required: true, message: "不可为空" }]}
+              >
                 <Input.TextArea size="large" placeholder="请输入您遇到的问题" />
               </Form.Item>
               <Form.Item wrapperCol={{ offset: 4 }}>

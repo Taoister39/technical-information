@@ -10,14 +10,7 @@ const ArticleRouter = () => {
   return (
     <Routes>
       <Route index element={<Article />} />
-      <Route
-        path="/preview/:id"
-        element={
-          <AuthRoute msg="需要登录">
-            <ArticlePreview />
-          </AuthRoute>
-        }
-      />
+      <Route path="/preview/:id" element={<ArticlePreview />} />
       <Route
         path="/publish"
         element={

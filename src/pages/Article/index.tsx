@@ -249,7 +249,10 @@ const Article: FC = () => {
                 message.error(result.message);
               }}
             />
-            <Card title="文章发布活跃用户">
+            <Card
+              title="文章发布活跃用户"
+              loading={countPublishData.names.length > 0 ? false : true}
+            >
               <Tabs
                 onChange={(activeKey) => {
                   if (activeKey === "moth" || activeKey === "week") {
@@ -282,7 +285,10 @@ const Article: FC = () => {
                 ]}
               />
             </Card>
-            <Card title="获点赞数最多用户">
+            <Card
+              title="获点赞数最多用户"
+              loading={beLikeList.names.length > 0 ? false : true}
+            >
               <RankingSurface
                 names={beLikeList?.names}
                 numbers={beLikeList?.numbers}

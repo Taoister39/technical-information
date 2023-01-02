@@ -72,10 +72,18 @@ const ArticlePublish: FC = () => {
         <Col span={12}>
           <Card>
             <Form labelCol={{ span: 4 }} onFinish={onFinish}>
-              <Form.Item label="文章标题" name="title">
+              <Form.Item
+                label="文章标题"
+                name="title"
+                rules={[{ required: true, message: "不可为空" }]}
+              >
                 <Input placeholder="请输入文章的标题" />
               </Form.Item>
-              <Form.Item label="文章类型" name="cate">
+              <Form.Item
+                label="文章类型"
+                name="cate"
+                rules={[{ required: true, message: "不可为空" }]}
+              >
                 <Select options={articleCates} placeholder="请选择" />
               </Form.Item>
               <Form.Item label="封面">
@@ -86,11 +94,15 @@ const ArticlePublish: FC = () => {
                     onChange={onFileChange}
                     maxCount={1}
                   >
-                    +
+                    {fileList.length < 1 && "+"}
                   </Upload>
                 </AntdImgCrop>
               </Form.Item>
-              <Form.Item label="文章内容" name="content">
+              <Form.Item
+                label="文章内容"
+                name="content"
+                rules={[{ required: true, message: "不可为空" }]}
+              >
                 <ReactQuill theme="snow" placeholder="开始写下你的文章吧！" />
               </Form.Item>
               <Form.Item wrapperCol={{ offset: 4 }}>
