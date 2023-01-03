@@ -78,24 +78,10 @@ const ArticlePreview: FC = () => {
     setIsLike((state) => !state);
     if (!isLike) {
       message.success("点赞成功");
-      setIssueData((state) => {
-        if (state?.like_count !== undefined)
-          return {
-            ...state,
-            like_count: state.like_count + 1,
-          };
-        return state;
-      });
+      issueData?.like_count !== undefined ? (issueData.like_count += 1) : "";
     } else {
       message.success("取消点赞成功");
-      setIssueData((state) => {
-        if (state?.like_count !== undefined)
-          return {
-            ...state,
-            like_count: state.like_count - 1,
-          };
-        return state;
-      });
+      issueData?.like_count !== undefined ? (issueData.like_count -= 1) : "";
     }
   };
 

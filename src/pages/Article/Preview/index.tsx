@@ -69,24 +69,14 @@ const ArticlePreview: FC = () => {
     setIsLike((state) => !state);
     if (!isLike) {
       message.success("点赞成功");
-      setArticleInfo((state) => {
-        if (state?.like_count !== undefined)
-          return {
-            ...state,
-            like_count: state.like_count + 1,
-          };
-        return state;
-      });
+      articleInfo?.like_count !== undefined
+        ? (articleInfo.like_count += 1)
+        : "";
     } else {
       message.success("取消点赞成功");
-      setArticleInfo((state) => {
-        if (state?.like_count !== undefined)
-          return {
-            ...state,
-            like_count: state.like_count - 1,
-          };
-        return state;
-      });
+      articleInfo?.like_count !== undefined
+        ? (articleInfo.like_count -= 1)
+        : "";
     }
   };
 
@@ -98,24 +88,14 @@ const ArticlePreview: FC = () => {
     setIsStart((state) => !state);
     if (!isStart) {
       message.success("收藏成功");
-      setArticleInfo((state) => {
-        if (state?.start_count !== undefined)
-          return {
-            ...state,
-            start_count: state.start_count + 1,
-          };
-        return state;
-      });
+      articleInfo?.start_count !== undefined
+        ? (articleInfo.start_count += 1)
+        : "";
     } else {
       message.success("取消收藏成功");
-      setArticleInfo((state) => {
-        if (state?.start_count !== undefined)
-          return {
-            ...state,
-            start_count: state.start_count - 1,
-          };
-        return state;
-      });
+      articleInfo?.start_count !== undefined
+        ? (articleInfo.start_count -= 1)
+        : "";
     }
   };
 

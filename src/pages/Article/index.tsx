@@ -95,11 +95,7 @@ const Article: FC = () => {
       );
       if (result.isOk && result.data) {
         setArticleData(result.data.list);
-        setSelectPage((state) => ({
-          ...state,
-          max_count: result.data?.maxCount || 0,
-        }));
-        // message.success(result.message);
+        selectPage.max_count = result.data.maxCount;
         return;
       }
       message.error(result.message);
@@ -240,11 +236,7 @@ const Article: FC = () => {
                 );
                 if (result.isOk && result.data) {
                   setArticleData(result.data.list);
-                  setSelectPage((state) => ({
-                    ...state,
-                    max_count: result.data?.maxCount || 0,
-                  }));
-                  // message.success(result.message);
+                  selectPage.max_count = result.data.maxCount;
                   return;
                 }
                 message.error(result.message);
