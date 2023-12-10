@@ -2,7 +2,7 @@ import React, { FC, Suspense, lazy } from "react";
 import { Navigate, Route, Routes } from "react-router";
 import { BrowserRouter } from "react-router-dom";
 
-const LayoutApp = lazy(() => import("@/pages/Layout"));
+const LayoutApp = lazy(() => import("@/components/Layout"));
 const Home = lazy(() => import("@/pages/Home"));
 // const Article = lazy(() => import("@/pages/Article"));
 // const Issue = lazy(() => import("@/pages/Issue"));

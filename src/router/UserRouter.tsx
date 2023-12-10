@@ -1,4 +1,5 @@
 import AuthRoute from "@/components/AuthRoute";
+import ArticleStar from "@/pages/User/ArticleStar";
 import React, { lazy } from "react";
 
 import type { FC } from "react";
@@ -23,6 +24,7 @@ const UserRouter: FC = () => {
         <Route path="/userinfo" element={<UserInfo />} />
         <Route path="/updatepwd" element={<UpdatePwd />} />
         <Route path="/updateavatar" element={<UpdateAvatar />} />
+        <Route path="/article/star" element={<ArticleStar />} />
         <Route path="*" element={<Navigate to="/user/userinfo" />} />
         <Route index element={<Navigate to="/user/userinfo" />} />
       </Route>

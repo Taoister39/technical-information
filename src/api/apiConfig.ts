@@ -1,5 +1,5 @@
 const apiConfig = {
-  baseUrl: "http://localhost:3939",
+  baseUrl: import.meta.env.VITE_API_URL,
   timeOut: 1000,
 };
 

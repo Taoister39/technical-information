@@ -32,6 +32,10 @@ const User: FC = () => {
                 label: <Link to="/user/updatepwd">重置密码</Link>,
                 key: "/user/updatepwd",
               },
+              {
+                label: <Link to="/user/article/star">文章收藏</Link>,
+                key: "/user/article/star",
+              },
             ]}
           />
         </Col>

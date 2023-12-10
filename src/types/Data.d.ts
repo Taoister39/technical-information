@@ -6,6 +6,20 @@ export interface UserData {
   user_email?: string;
 }
 
+export interface UserArticleStarData {
+  user_id: number;
+  title: string;
+  cover_url: string;
+  publish_date: string;
+  author: string;
+  avatar: string;
+  cate: string;
+  like_count: string;
+  comment_count: string;
+  star_count: string;
+  start_article_id: number;
+}
+
 export interface ArticleCateData {
   id: number;
   name: string;

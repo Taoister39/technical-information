@@ -23,6 +23,7 @@ import {
   DownOutlined,
   ImportOutlined,
   LogoutOutlined,
+  StarOutlined,
   UserOutlined,
 } from "@ant-design/icons";
 import { observer } from "mobx-react-lite";
@@ -51,17 +52,22 @@ const LayoutApp: FC = () => {
     {
       key: "/user/userinfo",
       icon: <AppstoreAddOutlined />,
-      label: <Link to="/user/userinfo">基本資料</Link>,
+      label: <Link to="/user/userinfo">基本资料</Link>,
     },
     {
       key: "/user/updateavatar",
       icon: <UserOutlined />,
-      label: <Link to="/user/updateavatar">更換頭像</Link>,
+      label: <Link to="/user/updateavatar">更换头像</Link>,
     },
     {
       key: "/user/updatepwd",
       icon: <ImportOutlined />,
-      label: <Link to="/user/updatepwd">重置密碼</Link>,
+      label: <Link to="/user/updatepwd">重置密码</Link>,
+    },
+    {
+      label: <Link to="/user/article/star">文章收藏</Link>,
+      icon: <StarOutlined />,
+      key: "/user/article/star",
     },
   ];
 
@@ -93,7 +99,7 @@ const LayoutApp: FC = () => {
             <Dropdown menu={{ items: avatarMenu }}>
               <Button type="link">
                 <Space>
-                  個人中心
+                  个人中心
                   <DownOutlined />
                 </Space>
               </Button>
@@ -123,7 +129,7 @@ const LayoutApp: FC = () => {
       </Content>
       <Footer className={styles.footer}>
         <Typography.Text style={{ padding: "1em" }}>
-          软件213你说对就队
+          软件213第一组
         </Typography.Text>
       </Footer>
     </Layout>
